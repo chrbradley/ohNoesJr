@@ -17,6 +17,7 @@
         <div id="editor">// Type the code you would like evaluated</div>
 
         <script src="./lib/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./node_modules/esprima/esprima.js" type="text/javascript" charset="utf-8"></script>
         <script>
             var editor = ace.edit("editor");
             editor.setTheme("ace/theme/monokai");
@@ -24,9 +25,16 @@
             editor.getSession().setTabSize(4);
             editor.getSession().setUseSoftTabs(true);
             editor.getSession().setUseWrapMode(true);
-            // editor.getSession().on('change', function(e) {
-            //     console.log(e);
-            // });
+            var timer = null;
+            editor.getSession().on('change', function(e) {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                timer = setTimeout(function() {
+                    console.log(esprima.parse(editor.getValue()));
+                }, 1000);
+            });
         </script>
     </body>
 </html>
