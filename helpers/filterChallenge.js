@@ -4,7 +4,7 @@ var initialText = "/*\n" +
 "filter is a function used to iterate over items of an array.\n" +
 "filter passes each item in the array to a callback function.\n\n" +
 "This callback function is sometimes refered to as a predicate or test function which just means that the function will only ever return either true or false.\n\n" +
-"If the predicate function returns true for that item, it is passed to a new array. When filter is finished iterating, it will return the new array.\n\n" +
+"If the predicate function returns true for that item, it is added to a new array. When filter is finished iterating, it will return the new array.\n\n" +
 "An example use case might look like this:\n\n" +
 "var numbers = [7, 2, 4, 3, 8, 1, 9];\n" +
 "filter(numbers, function(num) { if (num > 3) return true;});\n\n" +
@@ -28,27 +28,36 @@ filterChallenge.addToWhitelist("ArrayExpression", "ForStatement", "IfStatement",
 filterChallenge.addToBlacklist("WhileStatement");
 
 
-
+// initialize timer and event listener
 var timer = null;
 editor.getSession().on('change', function(e) {
+    // prevent parsing from blocking the user
     if (timer) {
         clearTimeout(timer);
         timer = null;
     }
 
+    // launch timer when user is finished typing
     timer = setTimeout(function() {
       var codeToParse = editor.getValue();
       var ast = esprima.parse(codeToParse);
 
-      if (!filterChallenge.verifyWhitelist(ast)) {
-        console.log('Uh-Oh! We are missing some nodes. :( ');
-      }
-
-      if (filterChallenge.verifyBlacklist(ast)) {
-        console.log('Uh-Oh!');
+      // basic demonstration logic
+      if(!filterChallenge.verifyStructure(ast, 'FunctionExpression', 'BlockStatement', 'VariableDeclaration', 'ArrayExpression')) {
+        console.log('Let\'s start by creating a container to store our result.');
+      } else if (filterChallenge.verifyType(ast, 'WhileStatement')) {
+        console.log('I guess you could use a while loop, but let\'s try a for loop instead.');
+      } else if (!filterChallenge.verifyType(ast, 'ForStatement')) {
+        console.log('Hey, how about trying a loop to iterate over your array...');
+      } else if (!filterChallenge.verifyStructure(ast, 'ForStatement', 'IfStatement')) {
+        console.log('You should probably put a conditional inside your for loop ;)');
+      } else if (!filterChallenge.verifyType(ast, 'ReturnStatement')) {
+        console.log('Hmmm, we\'re not getting anything returned yet.');
+      } else if (filterChallenge.verifyBlacklist(ast)) {
+        console.log('Uh-Oh! You\'re using something you shouldn\'t');
       } else {
-        console.log('Sweet, no nodes on our blacklist found!');
+        console.log('Sweet, this looks pretty good!');
       }
 
-    }, 1000);
+    }, 2000);
 });
