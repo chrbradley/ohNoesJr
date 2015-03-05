@@ -23,9 +23,11 @@ editor.gotoLine(24);
 // challenge specific code
 var filterChallenge = new Challenge();
 
+// set-up required and prohibited nodes
 filterChallenge.addToWhitelist("ArrayExpression", "ForStatement", "IfStatement", "ReturnStatement");
-
 filterChallenge.addToBlacklist("WhileStatement");
+
+
 
 var timer = null;
 editor.getSession().on('change', function(e) {
@@ -37,6 +39,7 @@ editor.getSession().on('change', function(e) {
     timer = setTimeout(function() {
       var codeToParse = editor.getValue();
       var ast = esprima.parse(codeToParse);
+
       if (!filterChallenge.verifyWhitelist(ast)) {
         console.log('Uh-Oh! We are missing some nodes. :( ');
       }
