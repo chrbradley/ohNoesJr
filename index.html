@@ -2,39 +2,22 @@
 <html lang="en">
     <head>
         <title>ohNoesJr</title>
-        <style type="text/css" media="screen">
-            #editor {
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-            }
-        </style>
+        <link rel="stylesheet" href="css/toast/grid.css">
+        <link rel="stylesheet" href="css/custom.css">
     </head>
 
     <body>
-        <div id="editor">// Type the code you would like evaluated</div>
+
+        <div class="container">
+            <div id="editor">
+            </div>
+        </div>
 
         <script src="./lib/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./lib/challenge/challenge.js" type="text/javascript" charset="utf-8"></script>
         <script src="./bower_components/esprima/esprima.js" type="text/javascript" charset="utf-8"></script>
-        <script>
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/monokai");
-            editor.getSession().setMode("ace/mode/javascript");
-            editor.getSession().setTabSize(4);
-            editor.getSession().setUseSoftTabs(true);
-            editor.getSession().setUseWrapMode(true);
-            var timer = null;
-            editor.getSession().on('change', function(e) {
-                if (timer) {
-                    clearTimeout(timer);
-                    timer = null;
-                }
-                timer = setTimeout(function() {
-                    console.log(esprima.parse(editor.getValue()));
-                }, 1000);
-            });
-        </script>
+        <script src="./helpers/editorInit.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./helpers/filterChallenge.js" type="text/javascript" charset="utf-8"></script>
+
     </body>
 </html>
