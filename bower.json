@@ -1,10 +1,11 @@
 {
   "name": "challenge",
-  "private": true,
+  "version": "0.0.1",
   "dependencies": {
       "chai": "~1.8.0",
       "mocha": "~1.14.0",
-      "esprima": "~1.2.5"
+      "esprima": "~2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "private": true
 }
