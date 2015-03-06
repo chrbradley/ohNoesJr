@@ -42,21 +42,23 @@ editor.getSession().on('change', function(e) {
       var codeToParse = editor.getValue();
       var ast = esprima.parse(codeToParse);
 
+      var pMessage = document.getElementById("message");
+
       // basic demonstration logic
       if(!filterChallenge.verifyStructure(ast, 'FunctionExpression', 'BlockStatement', 'VariableDeclaration', 'ArrayExpression')) {
-        console.log('Let\'s start by creating a container to store our result.');
+        pMessage.innerHTML = "Let\'s start by creating a container to store our result.";
       } else if (filterChallenge.verifyType(ast, 'WhileStatement')) {
-        console.log('I guess you could use a while loop, but let\'s try a for loop instead.');
+        pMessage.innerHTML = "I guess you could use a while loop, but let\'s try a for loop instead.";
       } else if (!filterChallenge.verifyType(ast, 'ForStatement')) {
-        console.log('Hey, how about trying a loop to iterate over your array...');
+        pMessage.innerHTML = "Hey, how about trying a loop to iterate over your array...";
       } else if (!filterChallenge.verifyStructure(ast, 'ForStatement', 'IfStatement')) {
-        console.log('You should probably put a conditional inside your for loop ;)');
+        pMessage.innerHTML = "You should probably put a conditional inside your for loop ;)";
       } else if (!filterChallenge.verifyType(ast, 'ReturnStatement')) {
-        console.log('Hmmm, we\'re not getting anything returned yet.');
+        pMessage.innerHTML = "Hmmm, we\'re not getting anything returned yet.";
       } else if (filterChallenge.verifyBlacklist(ast)) {
-        console.log('Uh-Oh! You\'re using something you shouldn\'t');
+        pMessage.innerHTML = "Uh-Oh! You\'re using something you shouldn\'t";
       } else {
-        console.log('Sweet, this looks pretty good!');
+        pMessage.innerHTML = "Sweet, this looks pretty good!";
       }
 
     }, 2000);
