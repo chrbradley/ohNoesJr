@@ -1,4 +1,10 @@
 #editor {
     position: relative;
     height: 600px;
-            }
+}
+
+p {
+    font-size: 120%;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-style: italic;
+}
